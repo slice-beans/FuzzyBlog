@@ -122,7 +122,8 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Artdarek\OAuth\OAuthServiceProvider',
-		'FuzzyBlog\Providers\ParsedownServiceProvider'
+		'FuzzyBlog\Providers\ParsedownServiceProvider',
+		'FuzzyBlog\Providers\ComposerServiceProvider'
 	),
 
 	/*

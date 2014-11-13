@@ -1,5 +1,126 @@
 @import "/public/components/bootstrap/dist/css/bootstrap.min.css";
 @import "/public/components/font-awesome/css/font-awesome.min.css";
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700,300);
+@import "/public/components/summernote/dist/summernote.css";
+
+@sitecolourmain: #14ACAD;
+
+h1, h2, h3, h4, h5, p, a {
+    font-family: "Lato","Lucida Grande","Lucida Sans Unicode",Helvetica,sans-serif;
+}
 
 body {
+	background: #eee;
+}
+
+.form-signin {
+	width:400px;
+	margin: auto;
+	padding-top:15%;
+
+	form {
+		padding:20px;
+		margin-top: 20px;
+		background:#fff;
+		box-shadow: 0 0 20px rgba(0,0,0,0.2);
+	}
+
+	img {
+		width:100%;
+	}
+
+	input[type="password"] {
+		margin: 15px 0;
+	}
+}
+
+.btn-outline {
+	background: none;
+	border: 1px solid #000;
+	text-transform: uppercase;
+	transition: all 0.5s;
+	&:hover {
+		color:#fff;
+		background:#000;
+	}
+	&.btn-site {
+		color: @sitecolourmain;
+		border-color: @sitecolourmain;
+		&:hover {
+			background: @sitecolourmain;
+			color:#fff;
+		}
+	}
+}
+
+.admin {
+	padding-top:50px;
+	.navbar-brand {
+		padding: 0;
+		img {
+			height: 50px;
+		}
+	}
+	.sidebar {
+		background: #1D2939;
+		.inner {
+			padding: 5px 15px;
+		}
+		.title {
+			font-size: 11px;
+			text-transform: uppercase;
+			color: #999;
+			margin-bottom: 10px;
+		}
+		.nav {
+			a {
+				color: #999;
+				&:hover {
+					background: @sitecolourmain;
+					color: #fff;
+				}
+				.fa-plus {
+					font-size:11px;
+					margin-top: 5px;
+				}
+			}
+			ul.children {
+				display: none;
+				padding-left:10px;
+				list-style-type: none;
+				clear:both;
+				li, a {
+					width:100%;
+				}
+				a {
+					transition: 0.5s all;
+					font-size:11px;
+					padding:5px;
+					border-radius: 5px;
+					&:hover {
+						background: none;
+						color: @sitecolourmain;
+						text-decoration: none;
+					}
+				}
+			}
+		}
+	}
+	.main {
+		padding:20px;
+		.inner {
+			background: #fff;
+			border-radius: 3px;
+			width:100%;
+			padding:20px;
+			box-shadow: 0 0 7px rgba(0,0,0,0.1);
+		}
+	}
+
+	.editor-container {
+		.note-editor {
+			min-height:300px;
+		}
+		margin-bottom:20px;
+	}
 }

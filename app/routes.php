@@ -15,3 +15,19 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::resource('sessions', 'SessionController');
+Route::get('login',  'SessionController@create');
+Route::get('logout', 'SessionController@destroy');
+
+Route::group(array('prefix' => 'admin', 'before' => 'auth'), function() 
+{
+	Route::get('/', array('as' => 'admin', function()
+	{
+		return View::make('admin.dashboard');
+	}));
+
+	Route::resource('posts', 'PostsController');
+	Route::resource('categories', 'CategoriesController');
+	Route::resource('comments', 'CommentsController');
+});
