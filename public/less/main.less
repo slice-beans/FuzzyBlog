@@ -1,5 +1,6 @@
 @import "/public/components/bootstrap/dist/css/bootstrap.min.css";
 @import "/public/components/font-awesome/css/font-awesome.min.css";
+@import url('//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.css');
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700,300);
 @import "/public/components/summernote/dist/summernote.css";
 
@@ -7,6 +8,10 @@
 
 h1, h2, h3, h4, h5, p, a {
     font-family: "Lato","Lucida Grande","Lucida Sans Unicode",Helvetica,sans-serif;
+}
+
+img {
+	max-width: 100%;
 }
 
 body {
@@ -122,5 +127,18 @@ body {
 			min-height:300px;
 		}
 		margin-bottom:20px;
+	}
+	#entityDT {
+		td, th {
+				text-align: center;
+		}
+		.post-thumbnail {
+			max-width:75px;
+		}
+		.btn-group {
+			.dropdown-menu {
+				margin-left:-100px;
+			}
+		}
 	}
 }

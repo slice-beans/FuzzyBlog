@@ -2,6 +2,12 @@
 
 class CategoriesController extends \BaseController {
 
+	public function __construct(FuzzyBlog\Services\CategoryService $service)
+	{
+		$this->beforeFilter('csrf', array('on' => 'post'));
+		$this->service = $service;
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -9,7 +15,7 @@ class CategoriesController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return View::make('pages.categories')->withCategories(\FuzzyBlog\Entities\Category::all());
 	}
 
 
@@ -20,7 +26,7 @@ class CategoriesController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make('pages.addnewcategory');
 	}
 
 
@@ -31,7 +37,16 @@ class CategoriesController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		try
+		{
+			$this->service->create(Input::all());
+		}
+		catch(FuzzyBlog\Exceptions\ValidationException $e)
+		{
+			return Redirect::back()->withInput()->withErrors($e->getErrors()); 
+		}
+
+		return Redirect::action('admin.categories.index')->withConfirmation('Category created successfully.');
 	}
 
 
@@ -55,7 +70,7 @@ class CategoriesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		return View::make('pages.editcategory')->withCategory(\FuzzyBlog\Entities\Category::find($id));
 	}
 
 
@@ -67,7 +82,15 @@ class CategoriesController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		try
+		{
+			$this->service->update(Input::all(), $id);
+		}
+		catch(FuzzyBlog\Exceptions\ValidationException $e)
+		{
+			return Redirect::back()->withInput()->withErrors($e->getErrors());
+		}
+		return Redirect::action('admin.categories.index')->withConfirmation('Category updated successfully.');
 	}
 
 
@@ -79,7 +102,8 @@ class CategoriesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		\FuzzyBlog\Entities\Category::destroy($id);
+		return Redirect::route('admin.categories.index')->withConfirmation('Category deleted.');
 	}
 
 

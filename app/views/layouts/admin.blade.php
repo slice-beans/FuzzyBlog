@@ -53,6 +53,7 @@ admin
 
 		<div class="col-sm-8 col-md-10 main">
 			<div class="inner">
+				@include('partials.adminerror')
 				@yield('adminmain')
 			</div>
 		</div>

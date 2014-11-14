@@ -2,9 +2,12 @@
 
 class PostsController extends \BaseController {
 
-	public function __construct()
+	protected $service;
+
+	public function __construct(FuzzyBlog\Services\PostService $service)
 	{
 		$this->beforeFilter('csrf', array('on' => 'post'));
+		$this->service = $service;
 	}
 
 	/**
@@ -14,7 +17,7 @@ class PostsController extends \BaseController {
 	 */
 	public function index()
 	{
-		
+		return View::make('pages.posts')->withPosts($this->service->indexPosts());
 	}
 
 
@@ -36,18 +39,16 @@ class PostsController extends \BaseController {
 	 */
 	public function store()
 	{
-		$service = new FuzzyBlog\Services\PostService;
-		
         try
 		{
-			$service->create(Input::all());
+			$this->service->create(Input::all());
 		}
 		catch(FuzzyBlog\Exceptions\ValidationException $e)
 		{
 			return Redirect::back()->withInput()->withErrors($e->getErrors());
 		}
 
-		return Redirect::action('admin.posts.index')->withConfirmation('Post saved.');
+		return Redirect::action('admin.posts.index')->withConfirmation('Post created successfully.');
 	}
 
 	/**
@@ -58,7 +59,7 @@ class PostsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		return View::make('pages.showpost')->withPost(\FuzzyBlog\Entities\Post::find($id));
 	}
 
 
@@ -70,7 +71,7 @@ class PostsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		return View::make('pages.editpost')->withPost(\FuzzyBlog\Entities\Post::find($id));
 	}
 
 
@@ -82,7 +83,15 @@ class PostsController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		try
+		{
+			$this->service->update(Input::all(), $id);
+		}
+		catch(FuzzyBlog\Exceptions\ValidationException $e)
+		{
+			return Redirect::back()->withInput()->withErrors($e->getErrors());
+		}
+		return Redirect::action('admin.posts.index')->withConfirmation('Post updated successfully.');
 	}
 
 
@@ -94,7 +103,18 @@ class PostsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		\FuzzyBlog\Entities\Post::destroy($id);
+		return Redirect::route('admin.posts.index')->withConfirmation('Post deleted.');
+	}
+
+	public function switchStatus()
+	{
+		$id = Input::get('id');
+
+		$post = \FuzzyBlog\Entities\Post::find($id);
+		$post->status = ( $post->status == 1 ? 2 : 1 );
+		$post->save();
+		return Redirect::route('admin.posts.index')->withConfirmation('Post status updated.');
 	}
 
 

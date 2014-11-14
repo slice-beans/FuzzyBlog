@@ -16,20 +16,34 @@ abstract class BaseService implements ServiceInterface {
 
 	public function create(array $attributes = array())
 	{
-		$model = $entitybasepath . $this->model;
+		$model = $this->entitybasepath . $this->model;
 
 		$this->validator->validateCreate($attributes);
 		
 		$model::create($attributes);
 	}
 
-	public function update(array $attributes = array())
+	public function update(array $attributes = array(), $id)
 	{
 		$model = $this->entitybasepath . $this->model;
-
 		$this->validator->validateUpdate($attributes);
 		
-		$model::update($attributes);
+		$obj = $model::find($id);
+		foreach($attributes as $col => $val)
+		{
+			if(in_array($col, $obj->getFillable()))
+			$obj->{$col} = $val;
+		}
+		$obj->save();
+	}
+
+	public function setSlug($slug, $title)
+	{
+		if(empty($slug))
+		{
+			return strtolower(str_replace(' ', '-', $title));
+		}
+		return $slug;	
 	}
 
 	public function getModel()

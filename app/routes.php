@@ -27,6 +27,8 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 		return View::make('admin.dashboard');
 	}));
 
+
+	Route::get('switchStatus', 'PostsController@switchStatus');
 	Route::resource('posts', 'PostsController');
 	Route::resource('categories', 'CategoriesController');
 	Route::resource('comments', 'CommentsController');

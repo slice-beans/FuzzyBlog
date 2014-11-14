@@ -8,7 +8,7 @@ class ComposerServiceProvider extends ServiceProvider {
 	{
 		$this->app->view->composer('admin.dashboard', 'FuzzyBlog\Composers\DashboardComposer');
 		$this->app->view->composer('pages.addnewpost', 'FuzzyBlog\Composers\PostComposer');
-		$this->app->view->composer('pages.updatepost', 'FuzzyBlog\Composers\PostComposer');
+		$this->app->view->composer('pages.editpost', 'FuzzyBlog\Composers\PostComposer');
 	}
 
 }

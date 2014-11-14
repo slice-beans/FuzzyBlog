@@ -1,0 +1,13 @@
+@if(Session::get('errors'))
+	
+	<div class="alert alert-danger">
+	
+		@foreach(Session::get('errors')->all() as $error)
+		
+			{{$error}}<br>
+
+		@endforeach
+	
+	</div>
+
+@endif

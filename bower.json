@@ -6,6 +6,7 @@
 		"font-awesome": "4.2.0",
 		"Chart.js": "1.0.1-beta.4",
 		"moment": "2.8.3",
-		"summernote": "0.5.10"
+		"summernote": "0.5.10",
+		"datatables":  "1.10.4"
 	}
 }

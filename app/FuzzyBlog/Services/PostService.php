@@ -7,35 +7,82 @@ class PostService extends BaseService {
 		$attributes['author_id'] = \Auth::user()->id;
 		$this->validator->validateCreate($attributes);
 
-		if(empty($attributes['slug']))
-		{
-			$attributes['slug'] = $this->setSlug($attributes['title']);
-		}
-
-		if(!is_null($attributes['thumbnail']) && get_class($attributes['thumbnail']) == 'Symfony\Component\HttpFoundation\File\UploadedFile')
-		{
-			$attributes['thumbnail'] = $this->setThumbnail($attributes['thumbnail'], $attributes['slug']);
-		}
-
-		$attributes['content'] = $attributes['content'][$attributes['post_type']];
+		$attributes = $this->setAttributes($attributes);
 
 		$model = $this->entitybasepath . $this->model;
-
 		$model::create($attributes);
 	}
 
-	public function setSlug($title)
+	public function setAttributes(array $attributes)
 	{
-		return strtolower(str_replace(' ', '-', $title));
+		$attributes['slug']      = $this->setSlug($attributes['slug'], $attributes['title']);
+		
+		if(isset($attributes['thumbnailupdate']))
+		{
+			if($attributes['thumbnailupdate'] == 'true') $attributes['thumbnail'] = $this->setThumbnail($attributes['thumbnail'], $attributes['slug']);
+		}
+		else
+		{
+			 $attributes['thumbnail'] = $this->setThumbnail($attributes['thumbnail'], $attributes['slug']);
+		}
+
+		if(is_null($attributes['thumbnail'])) $attributes['thumbnail'] = '';
+		
+		$attributes['content']   = $attributes['content'][$attributes['post_type']];
+
+		return $attributes;
 	}
 
-	public function setThumbnail(\Symfony\Component\HttpFoundation\File\UploadedFile $thumbnail, $slug)
+	public function update(array $attributes = array(), $id)
+	{	
+		$this->validator->validateUpdate($attributes);
+		$attributes = $this->setAttributes($attributes);
+
+		$model = $this->entitybasepath . $this->model;
+		
+		$post = $model::find($id);
+
+		foreach($attributes as $col => $val)
+		{
+			if(in_array($col, $post->getFillable()))
+			{
+				$post->{$col} = $val;
+			}
+		}
+
+		$post->save();
+
+	}
+
+	public function indexPosts()
 	{
-		$newfile = time() . $slug . '.' . $thumbnail->getClientOriginalExtension();
+		$model = $this->entitybasepath . $this->model;
 
-		$thumbnail->move(public_path() . '/img/thumbs/', $newfile);
+		$posts = $model::where('parent_id', '=', 0)->get();
 
-		return $newfile;
+		foreach($posts as $post)
+		{
+			$post->children();
+		}
+		return $posts;
+	}
+
+	public function setThumbnail($thumbnail, $slug)
+	{
+
+		if(get_class($thumbnail) == 'Symfony\Component\HttpFoundation\File\UploadedFile')
+		{
+			$newfile = time() . $slug . '.' . $thumbnail->getClientOriginalExtension();
+			$thumbnail->move(public_path() . '/img/thumbs/', $newfile);
+			return $newfile;
+		}
+
+		if(file_exists(public_path() . '/img/thumbs/'.$thumbnail))
+		{
+			return $thumbnail;
+		}
+
+		return false;		
 	}
 
 }

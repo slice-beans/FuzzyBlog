@@ -1,6 +1,10 @@
 <?php namespace FuzzyBlog\Entities;
 
+use FuzzyBlog\Presenters\PresentableTrait;
+
 abstract class BaseModel extends \Eloquent {
+
+	use PresentableTrait;
 
 	public function createOrFail( array $attributes = array() )
 	{
@@ -13,6 +17,11 @@ abstract class BaseModel extends \Eloquent {
 		}
 
 		return parent::create($attributes);
+	}
+
+	public function getDates()
+	{
+		return array('created_at', 'modified_at');
 	}
 
 }

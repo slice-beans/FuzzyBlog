@@ -15,5 +15,15 @@ class PostValidator extends Validator {
 
 	);
 
+	public $updateRules = array(
+
+		'title' => 'required',
+		'content' => 'required',
+		'status'  => 'in:1,2',
+		'thumbnail' => 'mimes:jpeg,jpg,bmp,png',
+		'category_id' => 'exists:categories,id',
+		'post_type'   => 'required|in:html,markdown'
+	);
+
 }
 

@@ -30,9 +30,21 @@ Add New Post
 
 		<div class="form-group @if($errors->has('thumbnail')) has-error @endif">
 
-			{{ Form::label('Post Thumbnail', null, array('class' => 'control-label')) }}
+			<div class="col-md-2 col-xs-2" id="postthumbnail">
 
-			{{ Form::file('thumbnail') }}
+				<p>No thumbnail set.</p>
+
+			</div>
+
+			{{ Form::label('post-thumbnail', 'Post Thumbnail', array('class' => 'control-label')) }}
+
+			<br>
+
+			<button id="clearthumbnail" class="btn btn-warning">Clear Thumbnail</button>
+
+			<button id="newthumbnail" class="btn btn-primary">Set Thumbnail</button>
+
+			{{ Form::file('thumbnail', array('id' => 'post-thumbnail', 'style' => 'opacity:0;')) }}
 
 		</div>
 
@@ -57,7 +69,7 @@ Add New Post
 			{{ Form::label('Content', null, array('class' => 'control-label')) }}
 
 			<div id="markdowncontainer" class="editor-container">
-				
+
 				{{ Form::textarea('content[markdown]', Input::old('content[markdown]'), array('class' => 'form-control')) }}
 
 			</div>
@@ -65,7 +77,7 @@ Add New Post
 			<div id="htmlcontainer" class="editor-container">
 				
 				<div id="htmlwysiwyg"></div>
-
+			
 				{{ Form::hidden('content[html]', Input::old('content[html]'), array('class' => 'form-control')) }}
 
 			</div>
