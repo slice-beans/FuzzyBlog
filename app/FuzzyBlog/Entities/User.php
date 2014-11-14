@@ -23,10 +23,4 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 
-	public function createOrFail(array $attributes = array())
-	{
-		$attributes['password'] = Hash::make($attributes['password']);
-		return parent::createOrFail($attributes);
-	}
-
 }

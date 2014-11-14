@@ -1,4 +1,4 @@
-<?php namespace FuzzyBlog\Service;
+<?php namespace FuzzyBlog\Services;
 
 interface ServiceInterface {
 

@@ -1,32 +1,40 @@
 <?php namespace FuzzyBlog\Services;
 
 use App;
-use FuzzyBlog\Validators\ValidationException;
 
-Abstract BaseService implements ServiceInterface { 
+abstract class BaseService implements ServiceInterface { 
 
 	protected $validatorbasepath = "FuzzyBlog\\Validators\\";
 	protected $entitybasepath    = "FuzzyBlog\\Entities\\";
-	protected $servicefor;
+	protected $model;
 
-	public function __construct($listener, \Eloquent $entity)
+	public function __construct()
 	{
-		$this->listener  = $listener;
-		$this->validator = App::make($basepath . "Validators\\{$entity}Validator");
+		$this->model = $this->getModel();
+		$this->validator = App::make($this->validatorbasepath . $this->model."Validator");
 	}
 
 	public function create(array $attributes = array())
 	{
-		try
-		{
-			$this->validator->validateCreate($attributes);
-		}
-		catch(ValidationException $e)
-		{
-			$this->listener->creationFailed($e->getMessage);
-		}
+		$model = $entitybasepath . $this->model;
 
-		$entitybasepath . $servicefor::create($attributes);
+		$this->validator->validateCreate($attributes);
+		
+		$model::create($attributes);
+	}
+
+	public function update(array $attributes = array())
+	{
+		$model = $this->entitybasepath . $this->model;
+
+		$this->validator->validateUpdate($attributes);
+		
+		$model::update($attributes);
+	}
+
+	public function getModel()
+	{
+		return substr(class_basename(get_class($this)), 0, -7);
 	}
 
 }

@@ -1,28 +1,41 @@
 <?php namespace FuzzyBlog\Services;
 
-use App;
-use FuzzyBlog\Validators\ValidationException;
-
 class PostService extends BaseService {
-	
-	protected $listener;
-
-	public function __construct($listener, FuzzyBlog\Validators\PostValidator $validator)
-	{
-		$this->listener  = $listener;
-		$this->validator = 
-	}
 
 	public function create(array $attributes = array())
 	{
-		try 
+		$attributes['author_id'] = \Auth::user()->id;
+		$this->validator->validateCreate($attributes);
+
+		if(empty($attributes['slug']))
 		{
-			App::make($this->validator)->validateCreate($attributes);
+			$attributes['slug'] = $this->setSlug($attributes['title']);
 		}
-		catch(ValidationException $e)
+
+		if(!is_null($attributes['thumbnail']) && get_class($attributes['thumbnail']) == 'Symfony\Component\HttpFoundation\File\UploadedFile')
 		{
-			return $this->listener->creationFailed()
+			$attributes['thumbnail'] = $this->setThumbnail($attributes['thumbnail'], $attributes['slug']);
 		}
+
+		$attributes['content'] = $attributes['content'][$attributes['post_type']];
+
+		$model = $this->entitybasepath . $this->model;
+
+		$model::create($attributes);
+	}
+
+	public function setSlug($title)
+	{
+		return strtolower(str_replace(' ', '-', $title));
+	}
+
+	public function setThumbnail(\Symfony\Component\HttpFoundation\File\UploadedFile $thumbnail, $slug)
+	{
+		$newfile = time() . $slug . '.' . $thumbnail->getClientOriginalExtension();
+
+		$thumbnail->move(public_path() . '/img/thumbs/', $newfile);
+
+		return $newfile;
 	}
 
 }

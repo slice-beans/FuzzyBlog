@@ -36,10 +36,19 @@ class PostsController extends \BaseController {
 	 */
 	public function store()
 	{
-		$service = new FuzzyBlog\Services\PostService($this, 'Post');
-		return $service->create(Input::all());
-	}
+		$service = new FuzzyBlog\Services\PostService;
+		
+        try
+		{
+			$service->create(Input::all());
+		}
+		catch(FuzzyBlog\Exceptions\ValidationException $e)
+		{
+			return Redirect::back()->withInput()->withErrors($e->getErrors());
+		}
 
+		return Redirect::action('admin.posts.index')->withConfirmation('Post saved.');
+	}
 
 	/**
 	 * Display the specified resource.

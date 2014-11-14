@@ -7,7 +7,11 @@
 
 	if($('#htmlwysiwyg').length)
 	{
-		$('#htmlwysiwyg').summernote();
+		$('#htmlwysiwyg').summernote({
+			onChange: function(contents, $editable) {
+			    $('[name="content[html]"]').val(contents);
+			},
+		});
 	}
 
 	if($('#post-type').length)

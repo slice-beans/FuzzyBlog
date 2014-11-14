@@ -2,7 +2,7 @@
 
 class CategoryValidator extends Validator {
 
-	public function $createRules = array(
+	protected $createRules = array(
 
 		'name' => 'required|string',
 		'slug'  => 'required|string|unique:posts'

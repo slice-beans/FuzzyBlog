@@ -1,8 +1,8 @@
 <?php namespace FuzzyBlog\Entities;
 
-class BaseModel extends \Eloquent {
-	
-	public function create( array $attributes = array() )
+abstract class BaseModel extends \Eloquent {
+
+	public function createOrFail( array $attributes = array() )
 	{
 		$class = get_class($this);
 		$path  = "FuzzyBlog\\Validators\\{$class}Validator";
