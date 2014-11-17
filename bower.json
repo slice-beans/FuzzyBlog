@@ -1,0 +1,14 @@
+{
+	"name": "FuzzyBlog",
+	"dependencies": {
+		"jquery": "~2.0.3",
+		"bootstrap": "3.3.0",
+		"font-awesome": "4.2.0",
+		"Chart.js": "1.0.1-beta.4",
+		"moment": "2.8.3",
+		"summernote": "0.5.10",
+		"datatables":  "1.10.4",
+		"imagesloaded": "3.1.8",
+		"mustache": "0.8.2"
+	}
+}
