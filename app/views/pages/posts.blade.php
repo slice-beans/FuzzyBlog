@@ -1,4 +1,4 @@
-@extends('layouts.adminentitylist')
+	@extends('layouts.adminentitylist')
 
 @section('title')
 FuzzyBlog | Posts
@@ -44,6 +44,7 @@ FuzzyBlog | Posts
 				  <ul class="dropdown-menu" role="menu">
 				    <li><a href="{{ URL::action('PostsController@show', array('id' => $post->id)) }}" target="_blank">View</a></li>
 				    <li><a href="{{ URL::action('PostsController@switchStatus', array('id' => $post->id)) }}">Switch Status</a></li>
+				    <li><a href="#" class="addNewComment" data-post="{{$post->id}}" data-route="{{URL::route('admin.comments.store')}}">Add New Comment</a></li>
 				    <li class="divider"></li>
 				    <li>{{ Form::open(array('route' => array('admin.posts.destroy', $post->id), 'method' => 'delete')) }}<button type="submit" class="btn btn-outline btn-site btn-block deleteResource">Delete</button>{{ Form::close() }}</li>
 				  </ul>

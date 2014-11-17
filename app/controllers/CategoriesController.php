@@ -106,5 +106,23 @@ class CategoriesController extends \BaseController {
 		return Redirect::route('admin.categories.index')->withConfirmation('Category deleted.');
 	}
 
+	/**
+	 * Show all posts in category or 404 if category doesnt exist
+	 *
+	 **/
+	public function showBySlug($slug)
+	{
+		try
+		{
+			$category = $this->service->findBySlug($slug);
+		}
+		catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e)
+		{
+			\App::abort(404);
+		}
+		
+		return View::make('pages.public.category')->withCategory($category)->withPosts($category->posts);
+	}
+
 
 }

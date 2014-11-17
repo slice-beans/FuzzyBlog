@@ -2,6 +2,11 @@
 
 use Exception;
 
+/**
+ * Call whenever an update / insert statement fails due to validation reasons - thrown in FuzzyBlog\Validators\Validator and its inheritors
+ *
+ * @package FuzzyBlog
+ **/
 class ValidationException extends Exception {
 	
 	protected $errors;

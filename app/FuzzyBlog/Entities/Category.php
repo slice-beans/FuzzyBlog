@@ -8,11 +8,10 @@ class Category extends BaseModel {
 
 	protected $fillable = array('name', 'slug');
 
-	
-
+	//only show live posts
 	public function posts()
 	{
-		return $this->hasMany('\FuzzyBlog\Entities\Post');
+		return $this->hasMany('\FuzzyBlog\Entities\Post')->where('status', '=', 1);
 	}
 	
 }

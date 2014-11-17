@@ -1,5 +1,10 @@
 <?php namespace Fuzzyblog\Presenters;
 
+/**
+ * basic presenter that binds the presenters corresponding model (passed by the model into the constructor) and calls the presenter method to format output using - defaults back to the model property if a presenter methodd doesn't exist
+ *
+ * @package FuzzyBlog
+ **/
 abstract class BasePresenter {
 
 	protected $entity;

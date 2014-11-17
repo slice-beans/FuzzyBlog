@@ -22,6 +22,11 @@ App::after(function($request, $response)
 	//
 });
 
+App::missing(function($e) 
+{
+	return Response::view('pages.public.notfound');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Authentication Filters

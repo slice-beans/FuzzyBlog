@@ -1,5 +1,12 @@
 <?php namespace FuzzyBlog\Presenters;
 
+/**
+ * If the adminpresenter and publicpresenter properties are set on the model, we can return a new instance of the presenter by calling $this->adminpresent(), $this->publicpresent() respectively from the mdoel.
+ * I opted not to use a singleton approach to the presenters because if iterating over an eloquent collection, the presenter would return values from the initial model throughout the iteration  
+ *
+ * @package FuzzyBlog
+ * 
+ **/
 trait PresentableTrait {
 	
 	public function adminpresent()

@@ -59,7 +59,7 @@ class PostsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		return View::make('pages.showpost')->withPost(\FuzzyBlog\Entities\Post::find($id));
+		return View::make('pages.public.post')->withPost(\FuzzyBlog\Entities\Post::find($id));
 	}
 
 
@@ -107,14 +107,49 @@ class PostsController extends \BaseController {
 		return Redirect::route('admin.posts.index')->withConfirmation('Post deleted.');
 	}
 
+	//used for building archive pages
+	public function findAllByDate($year, $month = null)
+	{
+		try
+		{
+			$posts = $this->service->findAllByDate($year, $month);
+		}
+		catch(\InvalidArgumentException $e)
+		{
+			\App::abort(404);
+		}
+	
+		return View::make('pages.public.archive')->withPosts($posts);
+	}
+
 	public function switchStatus()
 	{
 		$id = Input::get('id');
-
-		$post = \FuzzyBlog\Entities\Post::find($id);
-		$post->status = ( $post->status == 1 ? 2 : 1 );
-		$post->save();
+		
+		try
+		{
+			$this->service->switchStatus($id);
+		}
+		catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e)
+		{
+			return Redirect::back()->withErrors('Post not found.');
+		}
+		
 		return Redirect::route('admin.posts.index')->withConfirmation('Post status updated.');
+	}
+
+	public function showBySlug($slug)
+	{
+		try
+		{
+			$post = $this->service->findBySlug($slug);
+		}
+		catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e)
+		{
+			\App::abort(404);
+		}
+
+		return View::make('pages.public.post')->withPost($post);
 	}
 
 

@@ -5,21 +5,6 @@ Edit Post
 @stop
 
 @section('adminmain')
-
-	@if(Session::get('errors'))
-		
-		<div class="alert alert-danger">
-		
-			@foreach(Session::get('errors')->all() as $error)
-			
-				{{$error}}<br>
-
-			@endforeach
-		
-		</div>
-
-	@endif
-
 	
 	{{ Form::open(array('action' => array('PostsController@update', $post->id), 'method' => 'PUT', 'files' => true, 'id' => 'editpost')) }}
 

@@ -122,8 +122,9 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Artdarek\OAuth\OAuthServiceProvider',
-		'FuzzyBlog\Providers\ParsedownServiceProvider',
-		'FuzzyBlog\Providers\ComposerServiceProvider'
+		'MaxHoffmann\Parsedown\ParsedownServiceProvider',
+		'FuzzyBlog\Providers\ComposerServiceProvider',
+		'FuzzyBlog\Providers\FacebookServiceProvider'
 	),
 
 	/*
@@ -191,7 +192,7 @@ return array(
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
 		'OAuth' => 'Artdarek\OAuth\Facade\OAuth',
-		'Parsedown' => 'FuzzyBlog\Facades\ParsedownFacade'
+		'Markdown'        => 'MaxHoffmann\Parsedown\ParsedownFacade',
 
 	),
 

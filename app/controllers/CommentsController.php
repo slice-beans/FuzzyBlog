@@ -2,6 +2,13 @@
 
 class CommentsController extends \BaseController {
 
+	public function __construct(\FuzzyBlog\Services\CommentService $service)
+	{
+		$this->service = $service;
+		$this->beforeFilter('auth', array('except' => 'publicStoreNew'));
+		$this->beforeFilter('csrf', array('on' => 'post', 'except' => array('newReply', 'store')));
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -9,18 +16,20 @@ class CommentsController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return View::make('pages.comments')->withComments(\FuzzyBlog\Entities\Comment::all());
 	}
 
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
+	public function newReply()
+	{	
+		try
+		{
+			$this->service->createReply(Input::all());
+		}
+		catch(\FuzzyBlog\Exceptions\ValidationException $e)
+		{
+			return Redirect::back()->withErrors($e->getErrors())->withInput();
+		}
+		return View::make('pages.comments')->withComments(\FuzzyBlog\Entities\Comment::all());
 	}
 
 
@@ -31,31 +40,26 @@ class CommentsController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		try
+		{
+			$this->service->setAttributesAndCreate(Input::all(), Input::get('post_id'));
+		}
+		catch(\FuzzyBlog\Exceptions\ValidationException $e)
+		{
+			return Redirect::back()->withErrors($e->getErrors())->withInput();
+		}
+		return Redirect::route('admin.posts.index')->withPosts(\FuzzyBlog\Entities\Post::all())->withConfirmation('Comment Created successfully.');
 	}
 
-
 	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Show the form for editing the specified resource.
+	 * not used here as handled by javascript
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function edit($id)
 	{
-		//
+		return View::make('pages.editcomment')->withComment(\FuzzyBlog\Entities\Comment($id));
 	}
 
 
@@ -79,7 +83,42 @@ class CommentsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		\FuzzyBlog\Entities\Comment::destroy($id);
+		return Redirect::route('admin.comments.index')->withConfirmation('Post deleted.');
+	}
+
+	public function publicStoreNew($postid)
+	{
+		try
+		{
+			$this->service->setAttributesAndCreate(Input::all(), $postid);
+		}
+		catch(\FuzzyBlog\Exceptions\ValidationException $e)
+		{
+			return Redirect::back()->withErrors($e->getErrors())->withInput();
+		}
+		return Redirect::back()->withConfirmation('Comment has been posted and is awaiting moderation.');
+	}
+
+	public function switchStatus()
+	{
+		$id = Input::get('id');
+		
+		try
+		{
+			$this->service->switchStatus($id);
+		}
+		catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e)
+		{
+			return Redirect::back()->withErrors('Post not found.');
+		}
+		
+		return Redirect::route('admin.comments.index')->withConfirmation('Comment status updated.');
+	}
+	
+	public function publicStoreReply($parentid)
+	{
+
 	}
 
 

@@ -15,8 +15,9 @@ admin
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	        </button>
-	        <a class="navbar-brand" href="#">{{ HTML::image('/img/logo.png') }}</a>
+	        <a class="navbar-brand" href="{{URL::to('/admin')}}">{{ HTML::image('/img/logo.png') }}</a>
 		</div>
+		<a href="{{ URL::to('logout') }}" class="btn btn-outline pull-right btn-site logout" style="margin-top:8px;">Logout</a>
 	</div>
 </nav>
 
@@ -44,9 +45,11 @@ admin
 					<li class="nav-parent">
 						<a href="#"><i class="fa fa-comments"></i> Comments <i class="fa fa-plus pull-right"></i></a>
 						<ul class="children">
-							<li><a href="{{ URL::action('PostsController@index') }}"><i class="fa fa-list"></i> View All</a></li>
+							<li><a href="{{ URL::action('CommentsController@index') }}"><i class="fa fa-list"></i> View All</a></li>
 						</ul>
-					</li>			
+					</li>
+					<li><a href="{{ URL::action('SiteController@showAdmin') }}"><i class="fa fa-home"></i> Site Details</a></li>	
+					<li><a href="{{ URL::action('FacebookController@index') }}"><i class="fa fa-facebook"></i> Facebook Connect</a></li>	
 				</ul>
 			</div>
 		</div>

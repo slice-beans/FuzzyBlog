@@ -23,4 +23,9 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+	public function comments()
+	{
+		return $this->morphMany('\FuzzyBlog\Entities\Comment', 'authorable');
+	}
+
 }

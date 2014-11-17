@@ -16,7 +16,7 @@ gulp.task('less', function()
 
 gulp.task('concatjs', function()
 {
-	return gulp.src(['./public/components/jquery/jquery.min.js', './public/components/moment/min/moment.min.js', './public/components/Chart.js/Chart.min.js', './public/components/bootstrap/dist/js/bootstrap.min.js', './public/components/datatables/media/js/jquery.datatables.min.js', './public/components/datatables/media/js/bootstrap.datatables.js', './public/components/summernote/dist/summernote.min.js', './public/js/raw/admin.js'])
+	return gulp.src(['./public/components/mustache/mustache.js', './public/components/jquery/jquery.min.js', './public/components/moment/min/moment.min.js', './public/components/imagesloaded/imagesloaded.pkgd.min.js', './public/components/Chart.js/Chart.min.js', './public/components/bootstrap/dist/js/bootstrap.min.js', './public/components/datatables/media/js/jquery.datatables.min.js', './public/components/datatables/media/js/bootstrap.datatables.js', './public/components/summernote/dist/summernote.min.js', './public/js/libs/*.js', './public/js/raw/*.js'])
 			.pipe(conc('main.min.js'))
 			.pipe(ugly())
 			.pipe(gulp.dest('./public/js'));

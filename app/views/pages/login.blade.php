@@ -29,6 +29,8 @@ Login to your FuzzyBlog account
 
 		{{ Form::close() }}
 
+		{{ HTML::link('/', 'Get me out of here!', array('class' => 'btn btn-site btn-outline', 'style' => 'margin-top:10px;'))}}
+
 	</div>
 </div>
 @stop

@@ -4,9 +4,22 @@ class Post extends Basemodel {
 
 	protected $adminpresenter = "FuzzyBlog\Presenters\Admin\PostPresenter";
 
+	protected $publicpresenter = "FuzzyBlog\Presenters\PublicPresenters\PostPresenter";
+
 	protected $table = 'posts';
 
 	protected $fillable = array('title', 'author_id', 'status', 'slug', 'thumbnail', 'content', 'snippet', 'post_type', 'category_id', 'parent_id');
+
+	//called on the frontend of the blog, to only retrieve active posts
+	public static function allWherePublished()
+	{
+		return \FuzzyBlog\Entities\Post::where('status', '=', 1)->get();
+	}
+
+	public function comments()
+	{
+		return $this->hasMany('\FuzzyBlog\Entities\Comment');
+	}
 
 	public function category()
 	{

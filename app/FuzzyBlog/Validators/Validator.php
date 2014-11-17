@@ -3,6 +3,12 @@
 use FuzzyBlog\Exceptions\ValidationException;
 use Validator as V;
 
+/**
+ * base validator, which passes the create create / update rules of the instantiated validator to the validator method and throws a FuzzyBlog\Exceptions\ValidationException if it fails
+ *
+ * @package default
+ * @author 
+ **/
 abstract class Validator {
 	
 	public function validate($input, $rules)
