@@ -36,6 +36,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 	
 	Route::get('/facebook/connect', 'FacebookController@index');
 	Route::get('/facebook/connect/store', 'FacebookController@store');
+	Route::get('/facebook/post', 'FacebookController@postToFacebook');
 
 });
 

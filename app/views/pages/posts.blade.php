@@ -42,6 +42,9 @@ FuzzyBlog | Posts
 				    <span class="sr-only">Toggle Dropdown</span>
 				  </button>
 				  <ul class="dropdown-menu" role="menu">
+				  	@if($facebookset)
+				  		<li><a href="{{ URL::action('FacebookController@postToFacebook', array('id' => $post->id)) }}">Post To Facebook</a></li>
+				  	@endif
 				    <li><a href="{{ URL::action('PostsController@show', array('id' => $post->id)) }}" target="_blank">View</a></li>
 				    <li><a href="{{ URL::action('PostsController@switchStatus', array('id' => $post->id)) }}">Switch Status</a></li>
 				    <li><a href="#" class="addNewComment" data-post="{{$post->id}}" data-route="{{URL::route('admin.comments.store')}}">Add New Comment</a></li>

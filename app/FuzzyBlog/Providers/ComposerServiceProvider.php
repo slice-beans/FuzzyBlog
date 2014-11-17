@@ -18,6 +18,7 @@ class ComposerServiceProvider extends ServiceProvider {
 		$this->app->view->composer('pages.public.home', 'FuzzyBlog\Composers\PublicComposers\HomeComposer');
 		$this->app->view->composer(array('layouts.public', 'partials.defaultmeta'), 'FuzzyBlog\Composers\PublicComposers\LayoutComposer');
 		$this->app->view->composer('partials.publicsidebar', 'FuzzyBlog\Composers\PublicComposers\SidebarComposer');
+		$this->app->view->composer('pages.posts', 'FuzzyBlog\Composers\PostsComposer');
 	}
 
 }
