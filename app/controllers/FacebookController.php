@@ -20,7 +20,6 @@ class FacebookController extends \BaseController {
 		return View::make('pages.facebookconnect')->withLogin($facebookloginurl);
 	}
 
-
 	public function postToFacebook()
 	{
 		$postid = \Input::get('id');
@@ -47,6 +46,7 @@ class FacebookController extends \BaseController {
 		try
 		{
 			$this->helper->getFacebookAccessToken();
+			$this->helper->checkLogin();
 		}
 		catch(\FuzzyBlog\Exceptions\FacebookConnectException $e)
 		{
@@ -56,4 +56,50 @@ class FacebookController extends \BaseController {
 		return Redirect::action('FacebookController@index')->withConfirmation('Login to Facebook was successful.');
 	}
 
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		//
+	}
+
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		//
+	}
+
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id)
+	{
+		//
+	}
+
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		//
+	}
 }

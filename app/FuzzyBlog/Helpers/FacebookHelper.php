@@ -17,7 +17,12 @@ class FacebookHelper {
 	public function setFacebookAccessToken($route = 'FacebookController@store')
 	{
 		$helper = new LaravelFacebookRedirectLoginHelper(action($route.''));
-		
+		return $helper->getLoginUrl();
+	}
+
+	public function checkLogin($route = 'FacebookController@store')
+	{
+		$helper = new LaravelFacebookRedirectLoginHelper(action($route));		
 		try
 		{
 			$session = $helper->getSessionFromRedirect();
@@ -56,7 +61,6 @@ class FacebookHelper {
 				'message' => 'New post on FuzzyBlog: '.$title
 			)
 		))->execute()->getGraphObject();
-
 	}
 			
 }
