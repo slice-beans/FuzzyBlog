@@ -1,6 +1,6 @@
 <?php namespace FuzzyBlog\Entities;
 
-class Post extends Basemodel {
+class Post extends BaseModel {
 
 	protected $adminpresenter = "FuzzyBlog\Presenters\Admin\PostPresenter";
 
